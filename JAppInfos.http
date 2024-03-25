@@ -1,0 +1,6 @@
+@JAppInfos_HostAddress = http://localhost:5251
+
+GET {{JAppInfos_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
