@@ -7,13 +7,14 @@ namespace JAppInfos.Controllers
     public class RiotController : Controller
     {
 
-     
+
         private readonly RegisterService _registerService;
         private readonly RiotService _riotService;
-        public RiotController( RegisterService registerService, RiotService riotService)
+        public RiotController(  RiotService riotService, RegisterService registerService)
         {
-            _registerService = registerService;
+           
             _riotService = riotService;
+            _registerService = registerService;
         }
 
         [AllowAnonymous]
@@ -46,6 +47,15 @@ namespace JAppInfos.Controllers
             {
                 return BadRequest("Deu errado");
             }
+
+        }
+
+        [HttpGet]
+        [Route("test")]
+        [Authorize]
+        public async Task<IActionResult> test()
+        {
+            return Ok("teste token ok");
 
         }
     }

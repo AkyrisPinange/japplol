@@ -14,16 +14,14 @@ namespace JAppInfos.Services
     public class RegisterService
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<User> _userManager;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly Utils _utils;
 
 
 
-        public RegisterService(ApplicationDbContext context, UserManager<User> userManager, IHttpClientFactory httpClientFactory, Utils utils)
+        public RegisterService(ApplicationDbContext context, IHttpClientFactory httpClientFactory, Utils utils)
         {
             _context = context;
-            _userManager = userManager;
             _httpClientFactory = httpClientFactory;
             _utils = utils;
         }
@@ -31,9 +29,7 @@ namespace JAppInfos.Services
 
         public async Task Register(User user)
         {              
-            var passwordHasher =  new PasswordHasher<User>();
-            user.PasswordHash = passwordHasher.HashPassword(null, user.PassWord);
-
+          
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JAppInfos.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240402185737_UpdateBaseImgToStringUser")]
-    partial class UpdateBaseImgToStringUser
+    [Migration("20240403200135_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,44 @@ namespace JAppInfos.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("JAppInfos.Models.SummonerData", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("AccountId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("ProfileIconId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Puuid")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<long>("RevisionDate")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("SummonerLevel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("SummonerData");
+                });
+
             modelBuilder.Entity("JAppInfos.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -33,19 +71,8 @@ namespace JAppInfos.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("AccountId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("BaseImg")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("longtext");
-
-                    b.Property<long>("CreatedTimestamp")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Email")
                         .HasColumnType("longtext");
@@ -65,10 +92,6 @@ namespace JAppInfos.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("PassWord")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("longtext");
 
@@ -78,36 +101,35 @@ namespace JAppInfos.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("ProfileIconId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Puuid")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<long>("RevisionDate")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("SummonerLevel")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SummonerName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("JAppInfos.Models.SummonerData", b =>
+                {
+                    b.HasOne("JAppInfos.Models.User", "User")
+                        .WithOne("SummonerData")
+                        .HasForeignKey("JAppInfos.Models.SummonerData", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("JAppInfos.Models.User", b =>
+                {
+                    b.Navigation("SummonerData")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
