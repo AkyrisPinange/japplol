@@ -29,14 +29,10 @@ namespace JAppInfos.Services
         }
 
 
-        public async void Register(User user)
-        {
-            var createUserResult = await _userManager.CreateAsync(user, user.PassWord); // Use UserManager
-            if (!createUserResult.Succeeded)
-            {
-                // Handle creation errors
-                throw new Exception("Failed to create user"); // Example error handling
-            }
+        public async Task Register(User user)
+        {              
+            var passwordHasher =  new PasswordHasher<User>();
+            user.PasswordHash = passwordHasher.HashPassword(null, user.PassWord);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();

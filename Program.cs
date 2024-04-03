@@ -76,7 +76,6 @@ builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<RegisterService>();
 builder.Services.AddScoped<RiotService>();
 builder.Services.AddScoped<Utils>();
-builder.Services.AddScoped<GlobalMiddleware>();
 
 var app = builder.Build();
 

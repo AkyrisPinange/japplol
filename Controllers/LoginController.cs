@@ -40,7 +40,7 @@ namespace JAppInfos.Controllers
         [Authorize]
         public IActionResult Register([FromBody] User user)
         {
-           _registerService.Register(user);
+                 _registerService.Register(user);
 
                 return Ok("Usuario Registrado com sucesso");
 

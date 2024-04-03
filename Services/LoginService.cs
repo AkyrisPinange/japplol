@@ -33,14 +33,14 @@ namespace JAppInfos.Services
         private string Authenticate(UserLogin userLogin)
         {
 
-            User? user = _context.Users.FirstOrDefault(u => u.UserName == userLogin.UserName);
+            User? user = _context.Users.Single(u => u.UserName == userLogin.UserName);
 
             if (user == null || user.PassWord == null)
             {
                 throw new NotFoundException("User not Found", 404);
             }
 
-            if (VerifyPassword(user.PassWord, userLogin.PassWord, user)) 
+            if (VerifyPassword(user.PasswordHash, userLogin.PassWord, user)) 
             { 
                 return Generate(user);
             } else
@@ -73,6 +73,7 @@ namespace JAppInfos.Services
         {
             var passwordHasher = new PasswordHasher<User>();
             return passwordHasher.VerifyHashedPassword(user, hashedPassword, plainTextPassword) == PasswordVerificationResult.Success;
+
         }
 
     }
